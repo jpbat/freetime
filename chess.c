@@ -78,9 +78,9 @@ void house(int i, int j, char blank)
 
 void draw()
 {
-	int i, j, k;
-	char blank;
-	system(CLEAR);
+    int i, j, k;
+    char blank;
+    system(CLEAR);
 
 	for (i = 0; i < 8; i++)
 		printf("       %c", i+'a');
@@ -117,7 +117,12 @@ void draw()
 				if (k == 1)
 				{
 					if (table[i][j].color != 0)
-						house(i,j,blank);
+					{
+					    if (strcmp(CLEAR, "clear") == 0)
+                            house(i,j,blank);
+                        else
+                            printf("%c%c %c %c%c", blank, blank, table[i][j].name, blank, blank);
+					}
 					else
 						printf("%c%c%c%c%c%c%c", blank, blank, blank, blank, blank, blank, blank);
 				}
@@ -165,6 +170,9 @@ bool checkPawnMove(int oldX, int oldY, int newX, int newY)
 		return false;
 
 	if (newY != oldY && table[newX][newY].color != oposite(table[oldX][oldY].color))
+		return false;
+
+	if (abs(newX - oldX) == 1 && newY == oldY && table[newX][newY].color != 0)
 		return false;
 
 	return true;
@@ -337,6 +345,44 @@ bool legal(int oldX, int oldY, int newX, int newY, char cmd)
 	}
 }
 
+void checkPromotion(int x, int y)
+{
+	int choice;
+
+	if (table[x][y].name != 'P')
+		return;
+
+	if (x == 0 || x == 7)
+	{
+		do
+		{
+			draw();
+			printf("Choose to wish you want to promote your pawn:\n");
+			printf("1 - Queen\n");
+			printf("2 - Rook\n");
+			printf("3 - Knight\n");
+			printf("4 - Bishop\n");
+			scanf("%d", &choice);
+		} while (choice < 1 && choice > 4);
+
+		switch (choice)
+		{
+			case 1:
+				table[x][y].name = 'Q';
+				break;
+			case 2:
+				table[x][y].name = 'R';
+				break;
+			case 3:
+				table[x][y].name = 'H';
+				break;
+			case 4:
+				table[x][y].name = 'B';
+				break;
+		}
+	}
+}
+
 void move()
 {
 	int oldX, oldY, newX, newY;
@@ -362,6 +408,8 @@ void move()
 	table[newX][newY].moves = table[oldX][oldY].moves+1;
 
 	table[oldX][oldY].color = table[oldX][oldY].name = table[oldX][oldY].moves = 0;
+
+	checkPromotion(newX, newY);
 }
 
 void game()
