@@ -383,6 +383,13 @@ void checkPromotion(int x, int y)
 	}
 }
 
+void end()
+{
+	draw();
+	printf("Player %d won after %d rounds!\n", (turn % 2)+1, turn);
+	exit(0);
+}
+
 void move()
 {
 	int oldX, oldY, newX, newY;
@@ -403,11 +410,16 @@ void move()
 
 	} while( legal(oldX, oldY, newX, newY, move[0]) == false );
 
+	char c = table[newX][newY].name;
+	
 	table[newX][newY].color = table[oldX][oldY].color;
 	table[newX][newY].name = table[oldX][oldY].name;
 	table[newX][newY].moves = table[oldX][oldY].moves+1;
 
 	table[oldX][oldY].color = table[oldX][oldY].name = table[oldX][oldY].moves = 0;
+
+	if (c == 'K')
+		end();
 
 	checkPromotion(newX, newY);
 }
