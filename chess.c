@@ -12,6 +12,11 @@
 #define WHITE 'w'
 #define BLACK 'b'
 
+#define CLEAR "clear"
+#if defined (__WIN32__)
+    #define CLEAR "cls"
+#endif
+
 typedef struct piece {
 	char name;
 	char color;
@@ -21,19 +26,68 @@ typedef struct piece {
 piece table[8][8];
 int turn = 0;
 
+void house(int i, int j, char blank)
+{
+	printf("%c%c ", blank, blank);
+	if (table[i][j].color == WHITE)
+		switch(table[i][j].name)
+		{
+			case 'P':
+				printf("♙");
+				break;
+			case 'R':
+				printf("♖");
+				break;
+			case 'H':
+				printf("♘");
+				break;
+			case 'B':
+				printf("♗");
+				break;
+			case 'Q':
+				printf("♕");
+				break;
+			case 'K':
+				printf("♔");
+				break;
+		}
+	else
+		switch(table[i][j].name)
+		{
+			case 'P':
+				printf("♟");
+				break;
+			case 'R':
+				printf("♜");
+				break;
+			case 'H':
+				printf("♞");
+				break;
+			case 'B':
+				printf("♝");
+				break;
+			case 'Q':
+				printf("♛");
+				break;
+			case 'K':
+				printf("♚");
+				break;
+		}
+	printf(" %c%c", blank, blank);
+}
+
 void draw()
 {
 	int i, j, k;
 	char blank;
-	system("cls");
+	system(CLEAR);
 
-	printf("   ");
 	for (i = 0; i < 8; i++)
-		printf("    %c  ", 'a'+i);
+		printf("       %c", i+'a');
 	printf("\n");
 	for (i = 0; i < 8; i++)
 	{
-		printf("   ---------------------------------------------------------\n");
+		printf("   -----------------------------------------------------------------\n");
 		for (k = 0; k < 3; k++)
 		{
 			if (k == 1)
@@ -63,12 +117,12 @@ void draw()
 				if (k == 1)
 				{
 					if (table[i][j].color != 0)
-						printf("%c %c%c %c", blank, table[i][j].color, table[i][j].name,  blank);
+						house(i,j,blank);
 					else
-						printf("%c%c%c%c%c%c", blank, blank, blank, blank, blank, blank);
+						printf("%c%c%c%c%c%c%c", blank, blank, blank, blank, blank, blank, blank);
 				}
 				else
-					printf("%c%c%c%c%c%c", blank, blank, blank, blank, blank, blank);
+					printf("%c%c%c%c%c%c%c", blank, blank, blank, blank, blank, blank, blank);
 			}
 
 			printf("|");
@@ -80,10 +134,9 @@ void draw()
 			printf("\n");
 		}
 	}
-	printf("   ---------------------------------------------------------\n");
-	printf("   ");
+	printf("   -----------------------------------------------------------------\n");
 	for (i = 0; i < 8; i++)
-		printf("    %c  ", i+'a');
+		printf("       %c", i+'a');
 	printf("\n");
 }
 
@@ -384,7 +437,7 @@ int main(int argc, char** argv)
 
 	init();
 
-	//game();
-	printf("♔\n");
+	game();
+
 	return 0;
 }
