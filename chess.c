@@ -392,7 +392,7 @@ void game()
 				return;
 		}
 
-		//turn++;
+		turn++;
 	}
 }
 
