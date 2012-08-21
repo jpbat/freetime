@@ -121,6 +121,27 @@ def show():
 	write(side)
 	turtle.exitonclick()
 
+def preprocess():
+	i = 0
+	while i < squares:		
+		j = 0		
+		while j < squares:
+			print 'analizing', i, j
+			if matrix[i][j] == 0:
+				possibilities = []
+				for k in range(1,squares+1):
+					if fits (k, i, j):
+						possibilities.append(k)
+				
+				if len(possibilities) == 1:
+					matrix[i][j] = possibilities[0]
+					print 'back to the start...', i, j
+					i = 0
+					j = -1
+
+			j+=1
+		i+=1
+
 def main():
 	for i in range(squares):
 		temp = raw_input().split()
@@ -128,7 +149,7 @@ def main():
 			matrix[i][j] = int(temp[j])
 			if matrix[i][j]:
 				initial.append((i,j))
-				
+	preprocess()
 	solve(0,0)
 	return 0
 
