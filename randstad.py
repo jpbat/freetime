@@ -12,7 +12,7 @@ def solve(numbers):
 			index = i
 			break
 
-	if index == -1:
+	if index == -1 or len(numbers) < 2:
 		return 'No solution'
 
 	if index == 0:
