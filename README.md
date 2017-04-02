@@ -1,9 +1,9 @@
-any question please email me
+any questions please email me
 
 INFO:
 
 Sudoku:
-	the input must be a 9x9 matrix with numbers from 0-9 where 0 simbolize white spaces
+	the input must be a 9x9 matrix with numbers from 0-9 where 0 symbolizes white spaces
 	python-tk must be installed
 
 30 Game:
